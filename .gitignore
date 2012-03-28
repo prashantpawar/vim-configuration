@@ -84,3 +84,5 @@ bundle/tComment
 bundle/vim-quickrun
 
 bundle/ack.vim
+
+bundle/snipMate/

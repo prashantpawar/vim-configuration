@@ -149,6 +149,7 @@ call vundle#rc()
     Bundle "AutoComplPop"
     Bundle "file-line"
     Bundle "Align"
+    Bundle "snipMate"
     " Ack
     Bundle "ack.vim"
     noremap <LocalLeader># "ayiw:Ack <C-r>a<CR>
