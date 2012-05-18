@@ -4,7 +4,6 @@ set guifont=Inconsolata\ for\ Powerline:h14
 
 set t_Co=256
 syn on
-cd /Users/pacific/Sites/mixify-social
 
 set encoding=utf-8
 set modelines=0
@@ -32,8 +31,8 @@ set splitbelow
 set splitright
 set fillchars=diff:⣿,vert:│
 set autowrite
-set shiftround
 set autoread
+set shiftround
 set title
 set linebreak
 set colorcolumn=+1
@@ -114,6 +113,9 @@ let g:LustyJugglerSuppressRubyWarning=1
 
 "Remapping jj to escape
 inoremap jj <Esc>
+" Can be typed even faster than jj.
+imap jk <Esc>
+imap kj <Esc>
 
 "Typos
 command! -bang Q q<bang>
@@ -159,7 +161,7 @@ vnoremap <bs> x
 " Marks and Quotes
 noremap ' `
 noremap æ '
-noremap ` <C-^>
+" noremap ` <C-^>
 
 " Select (charwise) the contents of the current line, excluding indentation.
 " Great for pasting Python lines into REPLs.
@@ -296,14 +298,6 @@ augroup trailing
 augroup END
 
 " }}}
-
-"autocmd FileType python set omnifunc=pythoncomplete#Complete
-"autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
-"autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
-"autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-"autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
-"autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-"autocmd FileType c set omnifunc=ccomplete#Complete
 
 " associate *.foo with php filetype
 autocmd BufRead,BufNewFile *.less setfiletype css
