@@ -17,6 +17,8 @@ let s:yellow = "ffcc66"
 let s:green = "99cc99"
 let s:blue = "99cccc"
 let s:purple = "cc99cc"
+" let s:coal = '000000'
+" let s:tardis = '0a9dff'
 
 set background=dark
 hi clear
@@ -229,6 +231,12 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
 			exec "hi " . a:group . " gui=" . a:attr . " cterm=" . a:attr
 		endif
 	endfun
+    "
+    " Cursor {{{
+	" call <SID>X("Cursor", s:coal, s:tardis, "")
+	" call <SID>X("vCursor", s:coal, s:tardis, "")
+	" call <SID>X("iCursor", s:coal, s:tardis, "")
+    " }}}
 
 	" Vim Highlighting
 	call <SID>X("Normal", s:foreground, s:background, "")

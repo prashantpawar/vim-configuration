@@ -51,6 +51,9 @@ let g:Powerline_symbols = 'fancy'
 " Better Completion
 set completeopt=longest,menuone,preview
 
+" Save when losing focus
+au FocusLost * :silent! wall
+
 " Wildmenu completion
 
 set wildmenu
@@ -63,11 +66,6 @@ set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
 set wildignore+=*.spl                            " compiled spelling word lists
 set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=*.DS_Store                       " OSX bullshit
-
-set wildignore+=*.luac                           " Lua byte code
-
-set wildignore+=migrations                       " Django migrations
-set wildignore+=*.pyc                            " Python byte code
 
 set wildignore+=*.orig                           " Merge resolution files
 
@@ -104,19 +102,18 @@ inoremap # X<BS>#
 nnoremap K :q<cr>
 
 " Unfuck my screen
-nnoremap U :syntax sync fromstart<cr>:redraw!<cr>
+nnoremap <F3> :syntax sync fromstart<cr>:redraw!<cr>
 
-map <F7> :TlistToggle<CR>
+"{{{
+" Renegade's mappings
+map <F6> :tabnew<CR>
 map <F5> :CommandT<CR>
-map <Leader>5 :FufFile **\<CR>
-map <F6> :YRShow<CR>
+map <Leader>5 :CommandT<CR>
 let g:LustyJugglerSuppressRubyWarning=1
+" }}}
 
 "Remapping jj to escape
 inoremap jj <Esc>
-" Can be typed even faster than jj.
-imap jk <Esc>
-imap kj <Esc>
 
 "Typos
 command! -bang Q q<bang>
@@ -162,7 +159,7 @@ vnoremap <bs> x
 " Marks and Quotes
 noremap ' `
 noremap æ '
-" noremap ` <C-^>
+noremap ` <C-^>
 
 " Select (charwise) the contents of the current line, excluding indentation.
 " Great for pasting Python lines into REPLs.
@@ -184,14 +181,11 @@ inoremap <C-_> <Space><BS><Esc>:call InsertCloseTag()<cr>a
 "gSession settings
 let g:autoload_session = 1
 
-"gundo settings
-map <Leader>u :GundoToggle<CR>
-
 "phpfolding options
-" Don't use the PHP syntax folding 
-setlocal foldmethod=manual 
-" Turn on PHP fast folds 
-"EnableFastPHPFolds 
+" Don't use the PHP syntax folding
+setlocal foldmethod=manual
+" Turn on PHP fast folds
+"EnableFastPHPFolds
 
 augroup SetPhpFolds
 autocmd BufReadPost *
@@ -289,6 +283,35 @@ augroup twospace
 augroup END
 
 " }}}
+"
+
+" }}}
+" Abbreviations ----------------------------------------------------------- {{{
+
+function! EatChar(pat)
+    let c = nr2char(getchar(0))
+    return (c =~ a:pat) ? '' : c
+endfunction
+
+function! MakeSpacelessIabbrev(from, to)
+    execute "iabbrev <silent> ".a:from." ".a:to."<C-R>=EatChar('\\s')"
+endfunction
+
+call MakeSpacelessIabbrev('mx/',  'http://www.mixify.com/')
+call MakeSpacelessIabbrev('pl/',  'padding-left: ')
+call MakeSpacelessIabbrev('pr/',  'padding-right: ')
+call MakeSpacelessIabbrev('pt/',  'padding-top: ')
+call MakeSpacelessIabbrev('pb/',  'padding-bottom: ')
+
+call MakeSpacelessIabbrev('ml/',  'margin-left: ')
+call MakeSpacelessIabbrev('mr/',  'margin-right: ')
+call MakeSpacelessIabbrev('mt/',  'margin-top: ')
+call MakeSpacelessIabbrev('mb/',  'margin-bottom: ')
+
+inoremap <c-l> <c-k>l*
+
+" }}}
+
 " Trailing whitespace {{{
 " Only shown when not in insert mode so I don't go insane.
 
@@ -310,7 +333,7 @@ set statusline=%<%f\ %h%m%r\ %y%=%{v:register}\ %-14.(%l,%c%V%)\ %P
 "<Imported Config>"
 set history=256  " Number of things to remember in history.
 set autowrite  " Writes on make/shell commands
-set autoread 
+set autoread
 " Modeline
 set modeline
 set modelines=5 " default numbers of lines to read for modeline instructions
@@ -456,7 +479,7 @@ noremap <leader>s <C-w>s
 " }}}
 
 " background shortcut mapping
-map <F3> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
+"map <F2> :let &background = ( &background == "dark"? "light" : "dark" )<CR>
 
 " Environments (GUI/Console) ---------------------------------------------- {{{
 if has('gui_running')
@@ -535,7 +558,7 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
     " let Vundle manage Vundle
-    " required! 
+    " required!
     Bundle 'gmarik/vundle'
 
     " My Bundles here:
@@ -546,7 +569,6 @@ call vundle#rc()
     " Utility
     Bundle "repeat.vim"
     Bundle "surround.vim"
-    " Bundle "SuperTab"
     Bundle "AutoComplPop"
     Bundle "file-line"
     Bundle "Align"
@@ -566,18 +588,39 @@ call vundle#rc()
 
     "/2072/PHP-Indenting-for-VIm"
     Bundle "https://github.com/2072/PHP-Indenting-for-VIm.git"
-    let PHP_removeCRwhenUnix = 1 
+    let PHP_removeCRwhenUnix = 1
 
     "vim global session
     Bundle "http://github.com/c9s/gsession.vim"
 
     "auto complete plugin
     Bundle "https://github.com/Shougo/neocomplcache.git"
+    " Disable AutoComplPop.
+    let g:acp_enableAtStartup = 0
     let g:neocomplcache_enable_auto_select = 1
     let g:neocomplcache_enable_at_startup = 1
     let g:neocomplcache_enable_smart_case = 1
-    let g:neocomplcache_enable_camel_case_completion = 1 
-    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>" 
+    let g:neocomplcache_enable_camel_case_completion = 1
+    let g:neocomplcache_min_syntax_length = 3
+    let g:neocomplcache_ctags_program = 1
+    " Recommended key-mappings.
+    " <CR>: close popup and save indent.
+    inoremap <expr><CR>  neocomplcache#smart_close_popup() . "\<CR>"
+    " <TAB>: completion.
+    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    " <C-h>, <BS>: close popup and delete backword char.
+    inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+    inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+    inoremap <expr><C-y>  neocomplcache#close_popup()
+    " Enable heavy omni completion.
+    if !exists('g:neocomplcache_omni_patterns')
+        let g:neocomplcache_omni_patterns = {}
+    endif
+    let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.\w*\|\h\w*::'
+    "autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+    let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+    let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
+    let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
 
     "Color Themes
     Bundle "jnurmine/Zenburn"
@@ -586,7 +629,7 @@ call vundle#rc()
     Bundle "scrooloose/syntastic"
     autocmd FileType php set errorformat=%-GNo\ syntax\ errors\ detected\ in%.%#,PHP\ Parse\ error:\ %#syntax\ %trror\,\ %m\ in\ %f\ on\ line\ %l,PHP\ Fatal\ %trror:\ %m\ in\ %f\ on\ line\ %l,%-GErrors\ parsing\ %.%#,%-G\s%#,Parse\ error:\ %#syntax\ %trror\,\ %m\ in\ %f\ on\ line\ %l,Fatal\ %trror:\ %m\ in\ %f\ on\ line\ %l
     autocmd FileType phtml set errorformat=%-GNo\ syntax\ errors\ detected\ in%.%#,PHP\ Parse\ error:\ %#syntax\ %trror\,\ %m\ in\ %f\ on\ line\ %l,PHP\ Fatal\ %trror:\ %m\ in\ %f\ on\ line\ %l,%-GErrors\ parsing\ %.%#,%-G\s%#,Parse\ error:\ %#syntax\ %trror\,\ %m\ in\ %f\ on\ line\ %l,Fatal\ %trror:\ %m\ in\ %f\ on\ line\ %l
-    
+
     "Tagbar
     Bundle "Tagbar"
 
@@ -596,22 +639,20 @@ call vundle#rc()
     "PHPFold
     Bundle "phpfolding.vim"
 
-    "JumpToCSS
-    Bundle "ptrin/JumpToCSS"
-    nnoremap ,jc :JumpToCSS<CR>
-
-    "CSS-Color
-    " Bundle "ap/vim-css-color"
-
+    "Indent Guide
+    Bundle "nathanaelkane/vim-indent-guides"
+    let g:indent_guides_auto_colors = 0
+    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
+    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
 
     "AfterColors
     Bundle "AfterColors.vim"
 
-    "Gundo 
-    Bundle "Gundo"
-
     "Command-T
     Bundle "wincent/Command-T"
+
+    "Vitality.vim
+    Bundle "sjl/vitality.vim"
 
     "CtrlP
     Bundle "kien/ctrlp.vim"
@@ -655,22 +696,28 @@ call vundle#rc()
 
     "Powerline
     Bundle "Lokaltog/vim-powerline"
-    
+
+    "Vim Coffescript support
+    Bundle "kchmck/vim-coffee-script"
+
+    "Fountain.io
+    Bundle "fountain.vim"
+    au BufRead,BufNewFile *.fountain     set filetype=fountain
+
     "
     " original repos on github
     Bundle 'tpope/vim-fugitive'
     Bundle 'https://github.com/sjbach/lusty.git'
     Bundle 'Lokaltog/vim-easymotion'
-    " Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
     Bundle 'mattn/zencoding-vim'
-    let g:user_zen_expandabbr_key = '<c-e>' 
+    let g:user_zen_expandabbr_key = '<c-e>'
     let g:use_zen_complete_tag = 1
 
     " vim-scripts repos
     Bundle 'L9'
     " ...
 
-    filetype plugin indent on     " required! 
+    filetype plugin indent on     " required!
     "
     " Brief help
     " :BundleList          - list configured bundles

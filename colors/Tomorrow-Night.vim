@@ -17,6 +17,8 @@ let s:yellow = "f0c674"
 let s:green = "b5bd68"
 let s:blue = "81a2be"
 let s:purple = "b294bb"
+let s:coal = '000000'
+let s:tardis = '0a9dff'
 
 " Console 256 Colours
 if !has("gui_running")
@@ -276,6 +278,9 @@ if has("gui_running") || &t_Co == 88 || &t_Co == 256
 	call <SID>X("Type", s:blue, "", "none")
 	call <SID>X("Define", s:purple, "", "none")
 	call <SID>X("Include", s:blue, "", "") 
+	call <SID>X("Cursor", s:coal, s:tardis, "")
+	call <SID>X("vCursor", s:coal, s:tardis, "")
+	call <SID>X("iCursor", s:coal, s:tardis, "")
 	"call <SID>X("Ignore", "666666", "", "")
 	
 	" Vim Highlighting
