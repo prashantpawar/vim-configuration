@@ -1,6 +1,6 @@
 set nocompatible               " be iMproved
 filetype off                   " required!
-set guifont=Inconsolata\ for\ Powerline:h14
+set guifont=Inconsolata-dz\ for\ Powerline:h14
 
 set t_Co=256
 syn on
@@ -8,7 +8,6 @@ cd /Users/pacific/Sites/mixify-social
 
 set encoding=utf-8
 set modelines=0
-set autoindent
 set showmode
 set showcmd
 set hidden
@@ -78,6 +77,8 @@ augroup line_return
         \     execute 'normal! g`"zvzz' |
         \ endif
 augroup END
+
+autocmd BufWritePre *.py normal m`:%s/\s\+$//e``
 
 "persistent-undo Options
 set undodir=~/.vim/undodir
@@ -340,12 +341,12 @@ set modelines=5 " default numbers of lines to read for modeline instructions
 set backspace=indent,eol,start	" more powerful backspacing
 
 set tabstop=4    " Set the default tabstop
-set softtabstop=4
 set shiftwidth=4 " Set the default shift width for indents
-set expandtab   " Make tabs into spaces (set by tabstop)
 set smarttab " Smarter tab levels
-
+set expandtab   " Make tabs into spaces (set by tabstop)
+set softtabstop=4
 set autoindent
+
 set cindent
 set cinoptions=:s,ps,ts,cs
 set cinwords=if,else,while,do,for,switch,case
@@ -485,9 +486,8 @@ noremap <leader>s <C-w>s
 if has('gui_running')
     " GUI Vim
 
-    set background=light
-    colorscheme solarized
-
+    set background=dark
+    colorscheme lucius
 
     " Remove all the UI cruft
     set go-=T
@@ -537,7 +537,7 @@ else
     " Console Vim
     " For me, this means iTerm2, possibly through tmux
     set background=dark
-    colorscheme wombat256
+    colorscheme lucius
 
     " Mouse support
     set mouse=a
@@ -569,7 +569,7 @@ call vundle#rc()
     " Utility
     Bundle "repeat.vim"
     Bundle "surround.vim"
-    Bundle "AutoComplPop"
+    " Bundle "AutoComplPop"
     Bundle "file-line"
     Bundle "Align"
     Bundle "snipMate"
@@ -593,12 +593,12 @@ call vundle#rc()
     "vim global session
     Bundle "http://github.com/c9s/gsession.vim"
 
-    "auto complete plugin
-    Bundle "https://github.com/Shougo/neocomplcache.git"
-    " Disable AutoComplPop.
-    let g:acp_enableAtStartup = 0
-    let g:neocomplcache_enable_auto_select = 1
-    let g:neocomplcache_enable_at_startup = 1
+    " "auto complete plugin
+    " Bundle "https://github.com/Shougo/neocomplcache.git"
+    " " Disable AutoComplPop.
+    " let g:acp_enableAtStartup = 0
+    " let g:neocomplcache_enable_auto_select = 1
+    " let g:neocomplcache_enable_at_startup = 1
 
     "Color Themes
     Bundle "jnurmine/Zenburn"
@@ -681,6 +681,17 @@ call vundle#rc()
     "Fountain.io
     Bundle "fountain.vim"
     au BufRead,BufNewFile *.fountain     set filetype=fountain
+
+    "django
+    Bundle "django.vim"
+
+    "Soft Indents
+    Bundle "nathanaelkane/vim-indent-guides.git"
+    let g:indent_guides_auto_colors = 0
+    let g:indent_guides_start_level = 2
+    let g:indent_guides_guide_size = 1
+    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
+    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
 
     "
     " original repos on github
