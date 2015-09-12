@@ -6,7 +6,6 @@
 " a few minutes to kill.
 
 " Preamble ---------------------------------------------------------------- {{{
-cd /Users/prashant/amplify/dxm/
 filetype off
 filetype plugin indent on
 set nocompatible
@@ -36,15 +35,6 @@ call vundle#rc()
 
     Bundle "NathanNeff/grails-vim"
 
-    " Hardtime 
-    Bundle "takac/vim-hardtime"
-    let g:hardtime_default_on = 1
-
-    " Hard Mode
-    " Bundle "wikitopian/hardmode"
-    " autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
-    " nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
-
     "<snipMate>
     Bundle "MarcWeber/vim-addon-mw-utils"
     Bundle "tomtom/tlib_vim"
@@ -68,9 +58,6 @@ call vundle#rc()
     " }}}
 
     
-    "LESS Syntax
-    Bundle "groenewege/vim-less"
-
     "CtrlP
     " Bundle "kien/ctrlp.vim"
 
@@ -84,10 +71,6 @@ call vundle#rc()
 
     "NERD Commentator
     Bundle "scrooloose/nerdcommenter"
-
-    "/2072/PHP-Indenting-for-VIm"
-    Bundle "https://github.com/2072/PHP-Indenting-for-VIm.git"
-    let PHP_removeCRwhenUnix = 1
 
     "vim global session
     Bundle "http://github.com/c9s/gsession.vim"
@@ -119,12 +102,6 @@ call vundle#rc()
 
     "HTML5 Syntax highlighting
     Bundle "othree/html5.vim"
-
-    "Indent Guide
-    Bundle "nathanaelkane/vim-indent-guides"
-    let g:indent_guides_auto_colors = 0
-    autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
-    autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
 
     "AfterColors
     Bundle "AfterColors.vim"
@@ -213,7 +190,6 @@ call vundle#rc()
     Bundle 'tpope/vim-fugitive'
     Bundle 'https://github.com/sjbach/lusty.git'
     Bundle 'Lokaltog/vim-easymotion'
-    Bundle 'mattn/zencoding-vim'
 
     " vim-scripts repos
     Bundle 'L9'
@@ -244,7 +220,6 @@ set ttyfast
 set ruler
 set backspace=indent,eol,start
 set number
-set relativenumber
 set laststatus=2
 set history=1000
 set undofile
@@ -285,7 +260,7 @@ set backupskip=/tmp/*,/private/tmp/*"
 set completeopt=longest,menuone,preview
 
 " Save when losing focus
-"au FocusLost * :silent! wall
+au FocusLost * :silent! wall
 
 " Resize splits when the window is resized
 au VimResized * :wincmd =
@@ -356,6 +331,7 @@ set wildignore+=*.orig                           " Merge resolution files
 set wildignore+=classes
 set wildignore+=lib
 set wildignore+=node_modules
+set wildignore+=bower_components
 set wildignore+=coverage
 
 " }}}
@@ -386,9 +362,9 @@ set formatoptions=qrn1
 " }}}
 " Backups {{{
 
-set undodir=~/.vim/tmp/undo//     " undo files
-set backupdir=~/.vim/tmp/backup// " backups
-set directory=~/.vim/tmp/swap//   " swap files
+set undodir=~/.vim/tmp/undo/     " undo files
+set backupdir=~/.vim/tmp/backup/ " backups
+set directory=~/.vim/tmp/swap/   " swap files
 set tags=~/.vim/tmp/tags
 set backup                        " enable backups
 set noswapfile                    " It's 2012, Vim.
@@ -424,12 +400,6 @@ set background=dark
 " let g:badwolf_html_link_underline = 0
 " let g:solarized_contrast = "high"
 colors smyck
-
-" Reload the colorscheme whenever we write the file.
-"augroup color_zenburn_dev
-    "au!
-    "au BufWritePost zenburn.vim color zenburn
-"augroup END
 
 " Highlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
@@ -1355,6 +1325,7 @@ vnoremap <leader>H :Gbrowse<cr>
 
 map <F5> :CommandT<CR>
 map <Leader>p :CommandT<CR>
+let g:CommandTWildIgnore=&wildignore . ",**/bower_components/*,coverage/*,**/node_modules/*"
 
 " }}}
 " Grails {{{
@@ -1377,10 +1348,10 @@ let g:ghc = "/usr/local/bin/ghc"
 " }}}
 " HTML5 {{{
 
-let g:event_handler_attributes_complete = 0
-let g:rdfa_attributes_complete = 0
-let g:microdata_attributes_complete = 0
-let g:atia_attributes_complete = 0
+"let g:event_handler_attributes_complete = 0
+"let g:rdfa_attributes_complete = 0
+"let g:microdata_attributes_complete = 0
+"let g:atia_attributes_complete = 0
 
 " }}}
 " Jslint {{{
@@ -1686,6 +1657,7 @@ let vimclojure#WantNailgun = 0
 " }}}
 " YankRing {{{
 
+let g:yankring_history_dir = '~/.vim/tmp/' " backups
 function! YRRunAfterMaps()
     nnoremap Y :<C-U>YRYankCount 'y$'<CR>
     omap <expr> L YRMapsExpression("", "$")
@@ -1693,12 +1665,6 @@ function! YRRunAfterMaps()
 endfunction
 
 " }}}
-" Zencoding {{{
-
-    let g:user_zen_expandabbr_key = '<c-e>'
-    let g:use_zen_complete_tag = 1
-
-"}}}
 
 " }}}
 " Text objects ------------------------------------------------------------ {{{
