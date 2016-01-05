@@ -1,6 +1,6 @@
 " .vimrc
-" Author: Steve Losh <steve@stevelosh.com>
-" Source: http://bitbucket.org/sjl/dotfiles/src/tip/vim/
+" Author: Steve Losh <steve@stevelosh.com> & Prashant Singh Pawar <prashantpawar@gmail.com>
+" Source: http://github.com/prashantpawar/vim-configuration
 "
 " This file changes a lot.  I'll try to document pieces of it whenever I have
 " a few minutes to kill.
