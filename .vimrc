@@ -7,121 +7,108 @@
 
 " Preamble ---------------------------------------------------------------- {{{
 filetype off
-filetype plugin indent on
 set nocompatible
-set rtp+=~/.vim/bundle/Vundle.vim/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
-    " let Vundle manage Vundle
-    " required!
-    Bundle 'gmarik/vundle'
+    " let Vundle manage Vundle, required
+    Plugin 'VundleVim/Vundle.vim'
 
     " My Bundles here:
-    "Holylight, changes background color based on macbook contrast settings
-    " Bundle "Dinduks/vim-holylight"
-    " let g:holylight_threshold = 1000000
-    Bundle "YankRing.vim"
-    Bundle "http://github.com/thinca/vim-quickrun.git"
-    Bundle "http://github.com/thinca/vim-poslist.git"
-    Bundle "jQuery"
+    Plugin 'YankRing.vim'
+    Plugin 'http://github.com/thinca/vim-quickrun.git'
+    Plugin 'http://github.com/thinca/vim-poslist.git'
+    Plugin 'jQuery'
     " Utility
-    Bundle "repeat.vim"
-    Bundle "surround.vim"
-    " Bundle "AutoComplPop"
-    Bundle "file-line"
-    Bundle "Align"
-    Bundle "matchit.zip"
-    Bundle "wincent/Command-T"
+    Plugin 'repeat.vim'
+    Plugin 'surround.vim'
+    " Plugin 'AutoComplPop'
+    Plugin 'file-line'
+    Plugin 'Align'
+    Plugin 'matchit.zip'
+    Plugin 'wincent/Command-T'
 
-    Bundle "NathanNeff/grails-vim"
+    Plugin 'NathanNeff/grails-vim'
 
-    "<snipMate>
-    Bundle "MarcWeber/vim-addon-mw-utils"
-    Bundle "tomtom/tlib_vim"
-    Bundle "honza/snipmate-snippets"
+    Plugin 'mklabs/grunt.vim'
 
-    Bundle "garbas/vim-snipmate"
-    "</snipMate>
+    Plugin 'benmills/vimux'
 
-    Bundle "mklabs/grunt.vim"
-
-    Bundle "benmills/vimux"
-
-    Bundle "mhinz/vim-startify"
+    Plugin 'mhinz/vim-startify'
 
     " Colorschemes {{{
     "Solarized
-    Bundle "altercation/vim-colors-solarized"
+    Plugin 'altercation/vim-colors-solarized'
+    Plugin 'hukl/Smyck-Color-Scheme'
 
     "Color Themes
-    Bundle "jnurmine/Zenburn"
+    Plugin 'jnurmine/Zenburn'
     " }}}
 
     
     "CtrlP
-    " Bundle "kien/ctrlp.vim"
+    " Plugin 'kien/ctrlp.vim'
 
     "Switch.vim
-    Bundle "AndrewRadev/switch.vim.git"
+    Plugin 'AndrewRadev/switch.vim.git'
 
     " Ack
-    Bundle "ack.vim"
+    Plugin 'ack.vim'
     noremap <LocalLeader># "ayiw:Ack <C-r>a<CR>
     vnoremap <LocalLeader># "ay:Ack <C-r>a<CR>
 
     "NERD Commentator
-    Bundle "scrooloose/nerdcommenter"
+    Plugin 'scrooloose/nerdcommenter'
 
     "vim global session
-    Bundle "http://github.com/c9s/gsession.vim"
+    Plugin 'http://github.com/c9s/gsession.vim'
 
     " "auto complete plugin
-    " Bundle "https://github.com/Shougo/neocomplcache.git"
+    " Plugin 'https://github.com/Shougo/neocomplcache.git'
     " " Disable AutoComplPop.
     " let g:acp_enableAtStartup = 0
     " let g:neocomplcache_enable_auto_select = 1
     " let g:neocomplcache_enable_at_startup = 1
 
     "Syntastic
-    Bundle "scrooloose/syntastic"
-    autocmd FileType php set errorformat=%-GNo\ syntax\ errors\ detected\ in%.%#,PHP\ Parse\ error:\ %#syntax\ %trror\,\ %m\ in\ %f\ on\ line\ %l,PHP\ Fatal\ %trror:\ %m\ in\ %f\ on\ line\ %l,%-GErrors\ parsing\ %.%#,%-G\s%#,Parse\ error:\ %#syntax\ %trror\,\ %m\ in\ %f\ on\ line\ %l,Fatal\ %trror:\ %m\ in\ %f\ on\ line\ %l
-    autocmd FileType phtml set errorformat=%-GNo\ syntax\ errors\ detected\ in%.%#,PHP\ Parse\ error:\ %#syntax\ %trror\,\ %m\ in\ %f\ on\ line\ %l,PHP\ Fatal\ %trror:\ %m\ in\ %f\ on\ line\ %l,%-GErrors\ parsing\ %.%#,%-G\s%#,Parse\ error:\ %#syntax\ %trror\,\ %m\ in\ %f\ on\ line\ %l,Fatal\ %trror:\ %m\ in\ %f\ on\ line\ %l
+    Plugin 'scrooloose/syntastic'
 
     "Tagbar
-    Bundle "Tagbar"
-
-    "JSLint
-    Bundle "hallettj/jslint.vim"
+    Plugin 'Tagbar'
 
     "Dash
-    Bundle 'rizzatti/funcoo.vim'
-    Bundle 'rizzatti/dash.vim'
+    Plugin 'rizzatti/funcoo.vim'
+    Plugin 'rizzatti/dash.vim'
 
     "PHPFold
-    "Bundle "phpfolding.vim"
+    "Plugin 'phpfolding.vim'
 
     "HTML5 Syntax highlighting
-    Bundle "othree/html5.vim"
+    Plugin 'othree/html5.vim'
 
     "AfterColors
-    Bundle "AfterColors.vim"
+    Plugin 'AfterColors.vim'
 
     "Vimproc (Dependency for Unite.vim)
-    Bundle "Shougo/vimproc.vim"
+    Plugin 'Shougo/vimproc.vim'
 
     "Unite.vim
-    Bundle "Shougo/unite.vim"
+    Plugin 'Shougo/unite.vim'
 
     "Unite-Ack
-    Bundle "t9md/vim-unite-ack"
+    Plugin 't9md/vim-unite-ack'
 
     "Vitality.vim
-    Bundle "sjl/vitality.vim"
+    Plugin 'sjl/vitality.vim'
+
+    "Solidity syntax highlighting
+    Plugin 'tomlion/vim-solidity'
+    au BufRead,BufNewFile *.sol setfiletype solidity
 
     "CtrlP
-    " Bundle "kien/ctrlp.vim"
+    " Plugin 'kien/ctrlp.vim'
     "matcher
-    Bundle "burke/matcher"
+    Plugin 'burke/matcher'
     "matcher settings
     let g:path_to_matcher = "/usr/local/bin/matcher"
 
@@ -159,24 +146,24 @@ call vundle#rc()
     "matcher settings end
 
     "Powerline
-    Bundle "Lokaltog/vim-powerline"
+    Plugin 'powerline/powerline'
 
     "Powerline local themes
-    Bundle "zhaocai/linepower.vim"
+    Plugin 'zhaocai/linepower.vim'
 
     "Vim Coffescript support
-    Bundle "kchmck/vim-coffee-script"
+    Plugin 'kchmck/vim-coffee-script'
     au BufRead,BufNewFile *.coffee     set filetype=coffee
 
     "Fountain.io
-    Bundle "fountain.vim"
+    Plugin 'fountain.vim'
     au BufRead,BufNewFile *.fountain     set filetype=fountain
 
     "django
-    Bundle "django.vim"
+    Plugin 'django.vim'
 
     "Soft Indents
-    Bundle "nathanaelkane/vim-indent-guides.git"
+    Plugin 'nathanaelkane/vim-indent-guides.git'
     let g:indent_guides_auto_colors = 0
     let g:indent_guides_start_level = 2
     let g:indent_guides_guide_size = 1
@@ -184,27 +171,26 @@ call vundle#rc()
     autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
 
     " Signify, shows changed lines from git using the sign column
-    Bundle 'mhinz/vim-signify'
+    Plugin 'mhinz/vim-signify'
 
     " original repos on github
-    Bundle 'tpope/vim-fugitive'
-    Bundle 'https://github.com/sjbach/lusty.git'
-    Bundle 'Lokaltog/vim-easymotion'
+    Plugin 'tpope/vim-fugitive'
+    Plugin 'https://github.com/sjbach/lusty.git'
+    Plugin 'Lokaltog/vim-easymotion'
 
     " vim-scripts repos
-    Bundle 'L9'
+    Plugin 'L9'
     " ...
 
     filetype plugin indent on     " required!
-    "
-    " Brief help
-    " :BundleList          - list configured bundles
-    " :BundleInstall(!)    - install(update) bundles
-    " :BundleSearch(!) foo - search(or refresh cache first) for foo
-    " :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
-    "
+
     " see :h vundle for more details or wiki for FAQ
-    " NOTE: comments after Bundle command are not allowed..
+    " NOTE: comments after Vundle command are not allowed..
+    "
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
 
 " }}}
 " Basic options ----------------------------------------------------------- {{{
@@ -215,7 +201,7 @@ set autoindent
 set showmode
 set showcmd
 set hidden
-set visualbell
+set novisualbell
 set ttyfast
 set ruler
 set backspace=indent,eol,start
@@ -232,7 +218,8 @@ set matchtime=3
 set showbreak=↪
 set splitbelow
 set splitright
-set fillchars=diff:⣿,vert:│
+" set fillchars=diff:⣿,vert:│
+set fillchars+=stl:\ ,stlnc:\
 set autowrite
 set autoread
 set shiftround
@@ -350,7 +337,7 @@ augroup END
 " }}}
 " Tabs, spaces, wrapping {{{
 
-set tabstop=8
+set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set expandtab
@@ -1325,7 +1312,8 @@ vnoremap <leader>H :Gbrowse<cr>
 
 map <F5> :CommandT<CR>
 map <Leader>p :CommandT<CR>
-let g:CommandTWildIgnore=&wildignore . ",**/bower_components/*,coverage/*,**/node_modules/*"
+let g:CommandTWildIgnore=&wildignore . ",**/bower_components/*,coverage/*,**/node_modules/*,**/dist/*"
+let g:CommandTTraverseSCM="pwd"
 
 " }}}
 " Grails {{{
@@ -1353,9 +1341,6 @@ let g:ghc = "/usr/local/bin/ghc"
 "let g:microdata_attributes_complete = 0
 "let g:atia_attributes_complete = 0
 
-" }}}
-" Jslint {{{
-let g:JSLintHighlightErrorLine = 0
 " }}}
 " Linediff {{{
 
@@ -1510,11 +1495,20 @@ let g:SuperTabCrMapping = 1
 "}}}
 " Syntastic {{{
 
-let g:syntastic_enable_signs = 0
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
-let g:syntastic_disabled_filetypes = ['html', 'rst']
-let g:syntastic_stl_format = '[%E{%e Errors}%B{, }%W{%w Warnings}]'
-let g:syntastic_jsl_conf = '$HOME/.vim/jsl.conf'
+let g:syntastic_check_on_wq = 0
+
+let g:syntastic_enable_signs = 0
+"let g:syntastic_disabled_filetypes = ['html', 'rst']
+"let g:syntastic_stl_format = '[%E{%e Errors}%B{, }%W{%w Warnings}]'
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_eslint_exec = 'eslint_d'
 
 " }}}
 " Splice {{{
@@ -1892,14 +1886,43 @@ hi def BlockColor5 guibg=#444444
 nnoremap <leader>B :call BlockColor()<cr>
 
 " }}}
+" Unminify {{{
+" " Simple re-format for minified Javascript
+command! UnMinify call UnMinify()
+function! UnMinify()
+    %s/{\ze[^\r\n]/{\r/g
+    %s/){/) {/g
+    %s/};\?\ze[^\r\n]/\0\r/g
+    %s/;\ze[^\r\n]/;\r/g
+    %s/[^\s]\zs[=&|]\+\ze[^\s]/ \0 /g
+    normal ggVG=
+endfunction
+" }}}
 
 " }}}
 " Environments (GUI/Console) ---------------------------------------------- {{{
 
+    " Identify platform {
+        silent function! OSX()
+            return has('macunix')
+        endfunction
+        silent function! LINUX()
+            return has('unix') && !has('macunix') && !has('win32unix')
+        endfunction
+        silent function! WINDOWS()
+            return  (has('win32') || has('win64'))
+        endfunction
+    " }
+
 if has('gui_running')
     " GUI Vim
 
-    set guifont=PragmataPro:h12
+    if(OSX()) 
+        set guifont=PragmataPro:h12
+    elseif (LINUX())
+        set guifont=PragmataPro\ 10,Source\ Code\ Pro\ for\ Powerline\ 10,Menlo\ Regular\ 11,Consolas\ Regular\ 12,Courier\ New\ Regular\ 14
+    endif
+
 
     " Remove all the UI cruft
     set go-=T
