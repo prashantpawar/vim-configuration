@@ -105,6 +105,9 @@ call vundle#begin()
     Plugin 'tomlion/vim-solidity'
     au BufRead,BufNewFile *.sol setfiletype solidity
 
+    "Javascript Syntax highlighting
+    Plugin 'pangloss/vim-javascript'
+
     "CtrlP
     " Plugin 'kien/ctrlp.vim'
     "matcher
@@ -176,7 +179,7 @@ call vundle#begin()
     " original repos on github
     Plugin 'tpope/vim-fugitive'
     Plugin 'https://github.com/sjbach/lusty.git'
-    Plugin 'Lokaltog/vim-easymotion'
+    Plugin 'easymotion/vim-easymotion'
 
     " vim-scripts repos
     Plugin 'L9'
@@ -438,7 +441,7 @@ inoremap <F1> <ESC>:set invfullscreen<CR>a
 inoremap # X<BS>#
 
 " Kill window
-nnoremap K :q<cr>
+ nnoremap K :q<cr>
 
 " Toggle line numbers
 nnoremap <leader>n :setlocal number!<cr>
@@ -480,14 +483,6 @@ nnoremap <F8> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> t
 
 " Clean trailing whitespace
 nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
-
-" Send visual selection to gist.github.com as a private, filetyped Gist
-" Requires the gist command line too (brew install gist)
-" vnoremap <leader>G :w !gist -p -t %:e \| pbcopy<cr>
-" vnoremap <leader>UG :w !gist -p \| pbcopy<cr>
-
-" Send visual selection to paste.stevelosh.com
-vnoremap <c-p> :w !curl -sF 'sprunge=<-' 'http://paste.stevelosh.com' \| tr -d '\n ' \| pbcopy && open `pbpaste`<cr>
 
 " Insert the directory of the current buffer in command line mode
 cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
@@ -1270,18 +1265,22 @@ nnoremap <leader>cv :CoffeeWatch vertical<CR>
 " }}}
 " Easymotion {{{
 
-let g:EasyMotion_do_mapping = 0
+let g:EasyMotion_do_mapping = 0 " Disable default mappings
 
-nnoremap <silent> <Leader>f      :call EasyMotion#F(0, 0)<CR>
-onoremap <silent> <Leader>f      :call EasyMotion#F(0, 0)<CR>
-vnoremap <silent> <Leader>f :<C-U>call EasyMotion#F(1, 0)<CR>
+" Jump to anywhere you want with minimal keystrokes, with just one key binding.
+" `s{char}{label}`
+nmap s <Plug>(easymotion-overwin-f)
+" or
+" `s{char}{char}{label}`
+" Need one more keystroke, but on average, it may be more comfortable.
+nmap s <Plug>(easymotion-overwin-f2)
 
-nnoremap <silent> <Leader>F      :call EasyMotion#F(0, 1)<CR>
-onoremap <silent> <Leader>F      :call EasyMotion#F(0, 1)<CR>
-vnoremap <silent> <Leader>F :<C-U>call EasyMotion#F(1, 1)<CR>
+" Turn on case insensitive feature
+let g:EasyMotion_smartcase = 1
 
-onoremap <silent> <Leader>t      :call EasyMotion#T(0, 0)<CR>
-onoremap <silent> <Leader>T      :call EasyMotion#T(0, 1)<CR>
+" JK motions: Line motions
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
 
 " }}}
 " Fugitive {{{
