@@ -8,181 +8,134 @@
 " Preamble ---------------------------------------------------------------- {{{
 filetype off
 set nocompatible
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+
+call plug#begin('~/.vim/plugged')
 
     " let Vundle manage Vundle, required
-    Plugin 'VundleVim/Vundle.vim'
 
     " My Bundles here:
-    Plugin 'YankRing.vim'
-    Plugin 'http://github.com/thinca/vim-quickrun.git'
-    Plugin 'http://github.com/thinca/vim-poslist.git'
-    Plugin 'jQuery'
+    Plug 'YankRing.vim'
+    "Plug 'http://github.com/thinca/vim-quickrun.git'
+    "Plug 'http://github.com/thinca/vim-poslist.git'
+    "Plug 'jQuery'
     " Utility
-    Plugin 'repeat.vim'
-    Plugin 'surround.vim'
-    " Plugin 'AutoComplPop'
-    Plugin 'file-line'
-    Plugin 'Align'
-    Plugin 'matchit.zip'
-    Plugin 'wincent/Command-T'
+    Plug 'repeat.vim'
+    Plug 'surround.vim'
+    " Plug 'AutoComplPop'
+    "Plug 'file-line'
+    "Plug 'Align'
+    "Plug 'matchit.zip'
+    "Plug 'wincent/ommand-T'
 
-    Plugin 'NathanNeff/grails-vim'
+    "Plug 'mklabs/grunt.vim'
 
-    Plugin 'mklabs/grunt.vim'
+    "Plug 'benmills/vimux'
 
-    Plugin 'benmills/vimux'
+    "Plug 'mhinz/vim-startify'
 
-    Plugin 'mhinz/vim-startify'
+    "Javascript related {{{
+        Plug 'ternjs/tern_for_vim'
+        Plug 'Valloric/YouCompleteMe'
 
-    " Colorschemes {{{
-    "Solarized
-    Plugin 'altercation/vim-colors-solarized'
-    Plugin 'hukl/Smyck-Color-Scheme'
+        "HTML5 Syntax highlighting
+        Plug 'othree/html5.vim'
+        Plug 'othree/html5-syntax.vim'
+        Plug 'othree/javascript-libraries-syntax.vim'
 
-    "Color Themes
-    Plugin 'jnurmine/Zenburn'
+        "Javascript Syntax highlighting
+        Plug 'pangloss/vim-javascript'
     " }}}
 
-    
+    " Colorschemes {{{
+        "Solarized
+        Plug 'altercation/vim-colors-solarized'
+        Plug 'hukl/Smyck-Color-Scheme'
+
+        "Color Themes
+        Plug 'jnurmine/Zenburn'
+
+        "Monokai
+        Plug 'sickill/vim-monokai'
+    " }}}
+
     "CtrlP
-    " Plugin 'kien/ctrlp.vim'
+    Plug 'ctrlpvim/ctrlp.vim'
+    Plug 'FelikZ/ctrlp-py-matcher'
 
     "Switch.vim
-    Plugin 'AndrewRadev/switch.vim.git'
+    "Plug 'AndrewRadev/switch.vim'
 
     " Ack
-    Plugin 'ack.vim'
+    Plug 'ack.vim'
     noremap <LocalLeader># "ayiw:Ack <C-r>a<CR>
     vnoremap <LocalLeader># "ay:Ack <C-r>a<CR>
 
     "NERD Commentator
-    Plugin 'scrooloose/nerdcommenter'
+    Plug 'scrooloose/nerdcommenter'
 
     "vim global session
-    Plugin 'http://github.com/c9s/gsession.vim'
+    Plug 'http://github.com/c9s/gsession.vim'
 
     " "auto complete plugin
-    " Plugin 'https://github.com/Shougo/neocomplcache.git'
+    " Plug 'https://github.com/Shougo/neocomplcache.git'
     " " Disable AutoComplPop.
     " let g:acp_enableAtStartup = 0
     " let g:neocomplcache_enable_auto_select = 1
     " let g:neocomplcache_enable_at_startup = 1
 
     "Syntastic
-    Plugin 'scrooloose/syntastic'
+    Plug 'scrooloose/syntastic'
 
     "Tagbar
-    Plugin 'Tagbar'
-
-    "Dash
-    Plugin 'rizzatti/funcoo.vim'
-    Plugin 'rizzatti/dash.vim'
-
-    "PHPFold
-    "Plugin 'phpfolding.vim'
-
-    "HTML5 Syntax highlighting
-    Plugin 'othree/html5.vim'
+    Plug 'Tagbar'
 
     "AfterColors
-    Plugin 'AfterColors.vim'
+    Plug 'AfterColors.vim'
 
     "Vimproc (Dependency for Unite.vim)
-    Plugin 'Shougo/vimproc.vim'
+    Plug 'Shougo/vimproc.vim'
 
     "Unite.vim
-    Plugin 'Shougo/unite.vim'
+    Plug 'Shougo/unite.vim'
 
     "Unite-Ack
-    Plugin 't9md/vim-unite-ack'
+    Plug 't9md/vim-unite-ack'
 
     "Vitality.vim
-    Plugin 'sjl/vitality.vim'
+    Plug 'sjl/vitality.vim'
 
     "Solidity syntax highlighting
-    Plugin 'tomlion/vim-solidity'
+    Plug 'tomlion/vim-solidity'
     au BufRead,BufNewFile *.sol setfiletype solidity
 
-    "Javascript Syntax highlighting
-    Plugin 'pangloss/vim-javascript'
-
-    "CtrlP
-    " Plugin 'kien/ctrlp.vim'
-    "matcher
-    Plugin 'burke/matcher'
-    "matcher settings
-    let g:path_to_matcher = "/usr/local/bin/matcher"
-
-    let g:ctrlp_user_command = {
-    \ 'types': {
-        \ 1: ['.svn/', 'cd %s && git ls-files'],
-        \ },
-    \ 'fallback': 'find %s -type f'
-    \ }
-
-    function! g:GoodMatch(items, str, limit, mmode, ispath, crfile, regex)
-    " the Command-T matcher doesn't do regex. Return now if that was requested.
-    if a:regex == 1
-        let [lines, id] = [[], 0]
-        for item in a:items
-        let id += 1
-        try | if !( a:ispath && item == a:crfile ) && (match(item, a:str) >= 0)
-            cal add(lines, item)
-        en | cat | brea | endt
-        endfo
-        return lines
-    end
-
-    " a:mmode is currently ignored. In the future, we should probably do
-    " something about that. the matcher behaves like "full-line".
-    let cmd = g:path_to_matcher . " --limit " . a:limit . " --manifest " . ctrlp#utils#cachefile() . " "
-    if ! g:ctrlp_dotfiles
-        let cmd = cmd . "--no-dotfiles "
-    endif
-    let cmd = cmd . a:str
-    return split(system(cmd))
-
-    endfunction
-    let g:ctrlp_match_func = { 'match': 'g:GoodMatch' }
-    "matcher settings end
-
     "Powerline
-    Plugin 'powerline/powerline'
+    "Plug 'powerline/powerline'
 
     "Powerline local themes
-    Plugin 'zhaocai/linepower.vim'
+    "Plug 'zhaocai/linepower.vim'
 
-    "Vim Coffescript support
-    Plugin 'kchmck/vim-coffee-script'
-    au BufRead,BufNewFile *.coffee     set filetype=coffee
-
-    "Fountain.io
-    Plugin 'fountain.vim'
-    au BufRead,BufNewFile *.fountain     set filetype=fountain
-
-    "django
-    Plugin 'django.vim'
+    "Airline instead
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
 
     "Soft Indents
-    Plugin 'nathanaelkane/vim-indent-guides.git'
+    Plug 'nathanaelkane/vim-indent-guides'
     let g:indent_guides_auto_colors = 0
-    let g:indent_guides_start_level = 2
-    let g:indent_guides_guide_size = 1
+    "let g:indent_guides_start_level = 2
+    "let g:indent_guides_guide_size = 1
     autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
     autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
 
     " Signify, shows changed lines from git using the sign column
-    Plugin 'mhinz/vim-signify'
+    Plug 'mhinz/vim-signify'
 
     " original repos on github
-    Plugin 'tpope/vim-fugitive'
-    Plugin 'https://github.com/sjbach/lusty.git'
-    Plugin 'easymotion/vim-easymotion'
+    Plug 'tpope/vim-fugitive'
+    "Plug 'https://github.com/sjbach/lusty.git'
+    Plug 'easymotion/vim-easymotion'
 
     " vim-scripts repos
-    Plugin 'L9'
+    "Plug 'L9'
     " ...
 
     filetype plugin indent on     " required!
@@ -192,7 +145,7 @@ call vundle#begin()
     "
 
 " All of your Plugins must be added before the following line
-call vundle#end()            " required
+call plug#end()            " required
 filetype plugin indent on    " required
 
 " }}}
@@ -221,8 +174,7 @@ set matchtime=3
 set showbreak=↪
 set splitbelow
 set splitright
-" set fillchars=diff:⣿,vert:│
-set fillchars+=stl:\ ,stlnc:\
+set fillchars=diff:⣿,vert:│
 set autowrite
 set autoread
 set shiftround
@@ -389,7 +341,7 @@ syntax on
 set background=dark
 " let g:badwolf_html_link_underline = 0
 " let g:solarized_contrast = "high"
-colors smyck
+colors monokai
 
 " Highlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
@@ -1015,10 +967,26 @@ augroup ft_javascript
     " positioned inside of them AND the following code doesn't get unfolded.
     au Filetype javascript inoremap <buffer> {<cr> {}<left><cr><space><space><space><space>.<cr><esc>kA<bs>
 
-    let b:switch_definitions = 
+    let b:switch_definitions =
                 \ [
                 \   [ 'true', 'false' ]
                 \ ]
+
+    "pangloss/vim-javascript settings
+    let g:javascript_conceal_function       = "ƒ"
+    let g:javascript_conceal_null           = "ø"
+    let g:javascript_conceal_this           = "@"
+    let g:javascript_conceal_return         = "⇚"
+    let g:javascript_conceal_undefined      = "¿"
+    let g:javascript_conceal_NaN            = "ℕ"
+    let g:javascript_conceal_prototype      = "¶"
+    let g:javascript_conceal_static         = "•"
+    let g:javascript_conceal_super          = "Ω"
+    let g:javascript_conceal_arrow_function = "⇒"
+
+    "javascipt-filetype-syntax
+    let g:used_javascript_libs = 'underscore,react,angular,angularui,angularuirouter'
+
 augroup END
 
 " }}}
@@ -1110,7 +1078,7 @@ augroup END
 
 augroup ft_php
     au!
-    let b:switch_definitions = 
+    let b:switch_definitions =
                 \ [
                 \   [ 'public', 'private', 'protected']
                 \ ]
@@ -1307,16 +1275,13 @@ nnoremap <leader>H :Gbrowse<cr>
 vnoremap <leader>H :Gbrowse<cr>
 
 " }}}
-" CommandT {{{
+" CtrlP {{{
 
-map <F5> :CommandT<CR>
-map <Leader>p :CommandT<CR>
-let g:CommandTWildIgnore=&wildignore . ",**/bower_components/*,coverage/*,**/node_modules/*,**/dist/*"
-let g:CommandTTraverseSCM="pwd"
+map <F5> :CtrlP<CR>
+map <Leader>p :CtrlP<CR>
+let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
-" }}}
-" Grails {{{
-let g:GrailsMapPrefix='<leader>a'
 " }}}
 " Gundo {{{
 
@@ -1391,13 +1356,6 @@ let g:org_plugins = ['ShowHide', '|', 'Navigator', 'EditStructure', '|', 'Todo',
 let g:org_todo_keywords = ['TODO', '|', 'DONE']
 
 let g:org_debug = 1
-
-" }}}
-" Powerline {{{
-
-let g:Powerline_symbols = 'fancy'
-let g:Powerline_cache_enabled = 1
-" let g:Powerline_colorscheme = 'badwolf'
 
 " }}}
 " Python-Mode {{{
@@ -1916,7 +1874,7 @@ endfunction
 if has('gui_running')
     " GUI Vim
 
-    if(OSX()) 
+    if(OSX())
         set guifont=PragmataPro:h12
     elseif (LINUX())
         set guifont=PragmataPro\ 10,Source\ Code\ Pro\ for\ Powerline\ 10,Menlo\ Regular\ 11,Consolas\ Regular\ 12,Courier\ New\ Regular\ 14
@@ -1973,5 +1931,7 @@ else
     " Mouse support
     set mouse=a
 endif
+
+cd ~/Development/nxn-frontend2
 
 " }}}
