@@ -11,8 +11,6 @@ set nocompatible
 
 call plug#begin('~/.vim/plugged')
 
-    " let Vundle manage Vundle, required
-
     " My Bundles here:
     Plug 'YankRing.vim'
     "Plug 'http://github.com/thinca/vim-quickrun.git'
@@ -44,7 +42,11 @@ call plug#begin('~/.vim/plugged')
 
         "Javascript Syntax highlighting
         Plug 'pangloss/vim-javascript'
+
+        Plug 'leafgarland/typescript-vim'
     " }}}
+
+    Plug 'elixir-lang/vim-elixir'
 
     " Colorschemes {{{
         "Solarized
@@ -1875,7 +1877,7 @@ if has('gui_running')
     " GUI Vim
 
     if(OSX())
-        set guifont=PragmataPro:h12
+        set guifont=PragmataPro:h10,Source\ Code\ Pro:h10
     elseif (LINUX())
         set guifont=PragmataPro\ 10,Source\ Code\ Pro\ for\ Powerline\ 10,Menlo\ Regular\ 11,Consolas\ Regular\ 12,Courier\ New\ Regular\ 14
     endif
@@ -1930,8 +1932,7 @@ else
 
     " Mouse support
     set mouse=a
-endif
 
-cd ~/Development/nxn-frontend2
+endif
 
 " }}}
