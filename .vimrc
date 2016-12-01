@@ -34,7 +34,7 @@ call plug#begin('~/.vim/plugged')
     "Plug 'mhinz/vim-startify'
 
     "Javascript related {{{
-        Plug 'ternjs/tern_for_vim'
+        "Plug 'ternjs/tern_for_vim'
         Plug 'Valloric/YouCompleteMe'
 
         "HTML5 Syntax highlighting
@@ -55,12 +55,15 @@ call plug#begin('~/.vim/plugged')
         Plug 'jnurmine/Zenburn'
 
         "Monokai
-        Plug 'sickill/vim-monokai'
+        "Plug 'sickill/vim-monokai'
+        Plug 'crusoexia/vim-monokai'
     " }}}
 
     "CtrlP
     Plug 'ctrlpvim/ctrlp.vim'
     Plug 'FelikZ/ctrlp-py-matcher'
+    Plug 'tacahiroy/ctrlp-funky'
+    Plug 'sgur/ctrlp-extensions.vim'
 
     "Switch.vim
     "Plug 'AndrewRadev/switch.vim'
@@ -98,9 +101,6 @@ call plug#begin('~/.vim/plugged')
     "Unite.vim
     Plug 'Shougo/unite.vim'
 
-    "Unite-Ack
-    Plug 't9md/vim-unite-ack'
-
     "Vitality.vim
     Plug 'sjl/vitality.vim'
 
@@ -131,7 +131,6 @@ call plug#begin('~/.vim/plugged')
 
     " original repos on github
     Plug 'tpope/vim-fugitive'
-    "Plug 'https://github.com/sjbach/lusty.git'
     Plug 'easymotion/vim-easymotion'
 
     " vim-scripts repos
@@ -963,6 +962,8 @@ augroup ft_javascript
     au FileType javascript setlocal foldmethod=marker
     au FileType javascript setlocal foldmarker={,}
 
+    au FileType javascript setlocal omnifunc=tern#Complete
+
     " Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
     " positioned inside of them AND the following code doesn't get unfolded.
     au Filetype javascript inoremap <buffer> {<cr> {}<left><cr><space><space><space><space>.<cr><esc>kA<bs>
@@ -972,23 +973,17 @@ augroup ft_javascript
                 \   [ 'true', 'false' ]
                 \ ]
 
-    "pangloss/vim-javascript settings
-    let g:javascript_conceal_function       = "ƒ"
-    let g:javascript_conceal_null           = "ø"
-    let g:javascript_conceal_this           = "@"
-    let g:javascript_conceal_return         = "⇚"
-    let g:javascript_conceal_undefined      = "¿"
-    let g:javascript_conceal_NaN            = "ℕ"
-    let g:javascript_conceal_prototype      = "¶"
-    let g:javascript_conceal_static         = "•"
-    let g:javascript_conceal_super          = "Ω"
-    let g:javascript_conceal_arrow_function = "⇒"
-
     "javascipt-filetype-syntax
     let g:used_javascript_libs = 'underscore,react,angular,angularui,angularuirouter'
 
+    hi clear Conceal
+
 augroup END
 
+augroup jsfolding
+  autocmd!
+  autocmd FileType javascript setlocal foldenable|setlocal foldmethod=syntax
+augroup END
 " }}}
 " Lisp {{{
 
@@ -1278,9 +1273,18 @@ vnoremap <leader>H :Gbrowse<cr>
 " CtrlP {{{
 
 map <F5> :CtrlP<CR>
-map <Leader>p :CtrlP<CR>
+map <Leader>p :CtrlP .<CR>
+nnoremap <Leader>fm :CtrlPMRUFiles<Cr>
+nnoremap <Leader>fp :CtrlPYankring<Cr>
+
+nnoremap <Leader>fu :CtrlPFunky<Cr>
+" narrow the list down with a word under cursor
+nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+
 let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+let g:ctrlp_funky_matchtype = 'path'
+let g:ctrlp_funky_syntax_highlight = 1
 
 " }}}
 " Gundo {{{
@@ -1304,6 +1308,25 @@ let g:ghc = "/usr/local/bin/ghc"
 "let g:rdfa_attributes_complete = 0
 "let g:microdata_attributes_complete = 0
 "let g:atia_attributes_complete = 0
+
+" }}}
+" Javascript {{{
+    
+    set cole=1
+    "pangloss/vim-javascript settings
+    let g:javascript_conceal_function       = "ƒ"
+    let g:javascript_conceal_null           = "ø"
+    let g:javascript_conceal_this           = "@"
+    let g:javascript_conceal_return         = "⇚"
+    let g:javascript_conceal_undefined      = "¿"
+    let g:javascript_conceal_NaN            = "ℕ"
+    let g:javascript_conceal_prototype      = "¶"
+    let g:javascript_conceal_static         = "•"
+    let g:javascript_conceal_super          = "Ω"
+    let g:javascript_conceal_arrow_function = "⇒"
+
+    let g:javascript_plugin_jsdoc = 1
+    let g:javascript_plugin_ngdoc = 1
 
 " }}}
 " Linediff {{{
@@ -1582,9 +1605,6 @@ function! s:unite_my_settings()"{{{
     " Runs "split" action by <C-s>.
     imap <silent><buffer><expr> <C-s>     unite#do_action('split')
 endfunction"}}}
-
-" Replace CtrlP
-" nnoremap <leader>p :<C-u>Unite file_rec/async:!<cr>
 
 " MRU Files
 nnoremap <leader>m :<C-u>Unite file_mru:!<cr>
