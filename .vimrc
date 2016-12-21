@@ -38,7 +38,7 @@ call plug#begin('~/.vim/plugged')
         "HTML5 Syntax highlighting
         Plug 'othree/html5.vim'
         Plug 'othree/html5-syntax.vim'
-        Plug 'othree/javascript-libraries-syntax.vim'
+        "Plug 'othree/javascript-libraries-syntax.vim'
 
         "Javascript Syntax highlighting
         Plug 'pangloss/vim-javascript'
@@ -1316,7 +1316,7 @@ let g:ghc = "/usr/local/bin/ghc"
     
     set cole=1
     "pangloss/vim-javascript settings
-    let g:javascript_conceal_function       = "ƒ"
+    let g:javascript_conceal_function       = "𝑓"
     let g:javascript_conceal_null           = "ø"
     let g:javascript_conceal_this           = "@"
     let g:javascript_conceal_return         = "⇚"
@@ -1329,6 +1329,8 @@ let g:ghc = "/usr/local/bin/ghc"
 
     let g:javascript_plugin_jsdoc = 1
     let g:javascript_plugin_ngdoc = 1
+
+    syntax match jsVariableDef "angular" conceal cchar=α
 
 " }}}
 " Linediff {{{
