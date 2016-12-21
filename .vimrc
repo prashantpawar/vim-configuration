@@ -43,7 +43,12 @@ call plug#begin('~/.vim/plugged')
         "Javascript Syntax highlighting
         Plug 'pangloss/vim-javascript'
 
+    " }}}
+    "Typescript related {{{
         Plug 'leafgarland/typescript-vim'
+        Plug 'Quramy/tsuquyomi'
+        Plug 'Quramy/vim-js-pretty-template'
+        Plug 'jason0x43/vim-js-indent'
     " }}}
 
     Plug 'elixir-lang/vim-elixir'
@@ -910,7 +915,7 @@ augroup ft_haskell
 augroup END
 
 " }}}
-" HTML and HTMLDjango {{{
+" HTML and HTML JS {{{
 
 "let g:html_indent_tags = ['p', 'li']
 let g:html_indent_tags = 'html\|p\|li\|time'
@@ -919,30 +924,11 @@ augroup ft_html
     au!
 
     au BufNewFile,BufRead *.html setlocal filetype=html
-    au BufNewFile,BufRead *.phtml setlocal filetype=html
 
-    au FileType html,jinja,htmldjango setlocal foldmethod=manual
-
-    " Use <localleader>f to fold the current tag.
-    au FileType html,jinja,htmldjango nnoremap <buffer> <localleader>f Vatzf
-
-    " Use <localleader>t to fold the current templatetag.
-    au FileType html,jinja,htmldjango nmap <buffer> <localleader>t viikojozf
-
-    " Smarter pasting
-    au FileType html,jinja,htmldjango nnoremap <buffer> p :<C-U>YRPaste 'p'<CR>v`]=`]
-    au FileType html,jinja,htmldjango nnoremap <buffer> P :<C-U>YRPaste 'P'<CR>v`]=`]
-    au FileType html,jinja,htmldjango nnoremap <buffer> π :<C-U>YRPaste 'p'<CR>
-    au FileType html,jinja,htmldjango nnoremap <buffer> ∏ :<C-U>YRPaste 'P'<CR>
-
-    " Indent tag
-    au FileType html,jinja,htmldjango nnoremap <buffer> <localleader>= Vat=
-
-    " Django tags
-    au FileType jinja,htmldjango inoremap <buffer> <c-t> {%<space><space>%}<left><left><left>
-
-    " Django variables
-    au FileType jinja,htmldjango inoremap <buffer> <c-f> {{<space><space>}}<left><left><left>
+    autocmd FileType javascript JsPreTmpl html
+    autocmd FileType typescript JsPreTmpl markdown
+    autocmd FileType typescript syn clear foldBraces " For leafgarland/typescript-vim users only. Please see #1 for details.
+        
 augroup END
 
 " }}}
