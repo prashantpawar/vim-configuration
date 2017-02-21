@@ -19,17 +19,10 @@ call plug#begin('~/.vim/plugged')
     " Utility
     Plug 'repeat.vim'
     Plug 'surround.vim'
-    " Plug 'AutoComplPop'
-    "Plug 'file-line'
-    "Plug 'Align'
-    "Plug 'matchit.zip'
-    "Plug 'wincent/ommand-T'
-
-    "Plug 'mklabs/grunt.vim'
-
-    "Plug 'benmills/vimux'
-
-    "Plug 'mhinz/vim-startify'
+    " tmux related  {{{
+      Plug 'christoomey/vim-tmux-navigator'
+      Plug 'benmills/vimux'
+    " }}}
 
     "Javascript related {{{
         "Plug 'ternjs/tern_for_vim'
@@ -94,7 +87,7 @@ call plug#begin('~/.vim/plugged')
     " let g:neocomplcache_enable_at_startup = 1
 
     "Syntastic
-    Plug 'scrooloose/syntastic'
+    Plug 'vim-syntastic/syntastic'
 
     "Tagbar
     Plug 'Tagbar'
@@ -298,10 +291,10 @@ augroup END
 " }}}
 " Tabs, spaces, wrapping {{{
 
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
 set expandtab
+set shiftwidth=2
+set softtabstop=2
 set wrap
 set textwidth=80
 set colorcolumn=+1
@@ -1474,7 +1467,7 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
-let g:syntastic_enable_signs = 0
+let g:syntastic_enable_signs = 1
 "let g:syntastic_disabled_filetypes = ['html', 'rst']
 "let g:syntastic_stl_format = '[%E{%e Errors}%B{, }%W{%w Warnings}]'
 let g:syntastic_javascript_checkers = ['eslint']
@@ -1615,6 +1608,12 @@ let vimclojure#HighlightBuiltins = 1
 let vimclojure#ParenRainbow = 1
 let vimclojure#WantNailgun = 0
 
+" }}}
+" Vimux {{{
+ map <Leader>l :VimuxRunLastCommand<CR>
+" }}}
+" VimTmuxNavigator {{{
+let g:tmux_navigator_save_on_switch=2
 " }}}
 " YankRing {{{
 
