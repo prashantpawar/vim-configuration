@@ -13,9 +13,6 @@ call plug#begin('~/.vim/plugged')
 
     " My Bundles here:
     Plug 'YankRing.vim'
-    "Plug 'http://github.com/thinca/vim-quickrun.git'
-    "Plug 'http://github.com/thinca/vim-poslist.git'
-    "Plug 'jQuery'
     " Utility
     Plug 'repeat.vim'
     Plug 'surround.vim'
@@ -23,6 +20,7 @@ call plug#begin('~/.vim/plugged')
       Plug 'christoomey/vim-tmux-navigator'
       Plug 'benmills/vimux'
     " }}}
+    Plug 'AndrewRadev/linediff.vim'
 
     "Javascript related {{{
         "Plug 'ternjs/tern_for_vim'
@@ -35,6 +33,8 @@ call plug#begin('~/.vim/plugged')
 
         "Javascript Syntax highlighting
         Plug 'pangloss/vim-javascript'
+        Plug 'crusoexia/vim-javascript-lib'
+
 
     " }}}
     "Typescript related {{{
@@ -55,7 +55,6 @@ call plug#begin('~/.vim/plugged')
         Plug 'jnurmine/Zenburn'
 
         "Monokai
-        "Plug 'sickill/vim-monokai'
         Plug 'crusoexia/vim-monokai'
     " }}}
 
@@ -1149,7 +1148,6 @@ augroup ft_vim
 augroup END
 
 " }}}
-
 " }}}
 " Plugin settings --------------------------------------------------------- {{{
 
@@ -1323,11 +1321,6 @@ nnoremap <leader>L :LinediffReset<cr>
 let g:lisp_rainbow = 1
 
 " }}}
-" Makegreen {{{
-
-nnoremap \| :call MakeGreen('')<cr>
-
-" }}}
 " NERD Tree {{{
 
 noremap  <F2> :NERDTreeToggle<cr>
@@ -1403,52 +1396,6 @@ let g:pymode_rope_goto_def_newwin = 0
 let g:pymode_rope_always_show_complete_menu = 0
 
 " }}}
-" Scratch {{{
-
-command! ScratchToggle call ScratchToggle()
-
-function! ScratchToggle()
-    if exists("w:is_scratch_window")
-        unlet w:is_scratch_window
-        exec "q"
-    else
-        exec "normal! :Sscratch\<cr>\<C-W>J:resize 13\<cr>"
-        let w:is_scratch_window = 1
-    endif
-endfunction
-
-nnoremap <silent> <leader><tab> :ScratchToggle<cr>
-
-" }}}
-" Signify {{{
-let g:signify_mapping_next_hunk = '<leader>gj'
-let g:signify_mapping_prev_hunk = '<leader>gk'
-let g:signify_mapping_toggle_highlight = '<leader>gh'
-
-let g:signify_sign_add               = '+'
-let g:signify_sign_change            = '!'
-let g:signify_sign_delete            = '_'
-let g:signify_sign_delete_first_line = '‾'
-
-let g:signify_sign_overwrite = 1
-
-let g:signify_update_on_bufenter = 1
-
-let g:signify_line_highlight = 0
-" }}}
-" SLIMV {{{
-
-let g:slimv_repl_name = 'SLIMV.REPL'
-let g:slimv_repl_split = 4
-" let g:slimv_repl_syntax = 0
-let g:slimv_repl_wrap = 0
-
-let g:paredit_mode = 0
-
-" Use a swank command that works, and doesn't require new app windows.
-let g:slimv_swank_clojure = '!dtach -n /tmp/dtach-swank.sock -r winch lein swank'
-
-" }}}}
 " Supertab {{{
 
 let g:SuperTabDefaultCompletionType = "<c-n>"
@@ -1472,30 +1419,6 @@ let g:syntastic_enable_signs = 1
 "let g:syntastic_stl_format = '[%E{%e Errors}%B{, }%W{%w Warnings}]'
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exec = 'eslint_d'
-
-" }}}
-" Splice {{{
-
-" let g:splice_leader = "-"
-
-let g:splice_initial_mode = "grid"
-
-let g:splice_initial_layout_grid = 0
-let g:splice_initial_layout_loupe = 0
-let g:splice_initial_layout_compare = 0
-let g:splice_initial_layout_path = 0
-
-let g:splice_initial_diff_grid = 1
-let g:splice_initial_diff_loupe = 0
-let g:splice_initial_diff_compare = 1
-let g:splice_initial_diff_path = 0
-
-let g:splice_initial_scrollbind_grid = 0
-let g:splice_initial_scrollbind_loupe = 0
-let g:splice_initial_scrollbind_compare = 0
-let g:splice_initial_scrollbind_path = 0
-
-let g:splice_wrap = "nowrap"
 
 " }}}
 " tslime {{{
@@ -1936,6 +1859,7 @@ if has('gui_running')
 else
     " Console Vim
     " For me, this means iTerm2, possibly through tmux
+    set t_Co=256
 
     " Mouse support
     set mouse=a
