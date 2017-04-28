@@ -68,7 +68,7 @@ call plug#begin('~/.vim/plugged')
     "Plug 'AndrewRadev/switch.vim'
 
     " Ack
-    Plug 'ack.vim'
+    Plug 'mileszs/ack.vim'
     noremap <LocalLeader># "ayiw:Ack <C-r>a<CR>
     vnoremap <LocalLeader># "ay:Ack <C-r>a<CR>
 
@@ -108,7 +108,7 @@ call plug#begin('~/.vim/plugged')
     au BufRead,BufNewFile *.sol setfiletype solidity
 
     "Powerline
-    "Plug 'powerline/powerline'
+    Plug 'powerline/powerline'
 
     "Powerline local themes
     "Plug 'zhaocai/linepower.vim'
@@ -1533,7 +1533,8 @@ let vimclojure#WantNailgun = 0
 
 " }}}
 " Vimux {{{
- map <Leader>l :VimuxRunLastCommand<CR>
+"map <Leader>l :VimuxRunCommand("!!")<CR><CR>
+ map <Leader>l :call VimuxSendKeys("C-p Enter")<CR>
 " }}}
 " VimTmuxNavigator {{{
 let g:tmux_navigator_save_on_switch=2
@@ -1809,7 +1810,7 @@ if has('gui_running')
     if(OSX())
         set guifont=PragmataPro:h10,Source\ Code\ Pro:h10
     elseif (LINUX())
-        set guifont=PragmataPro\ 10,Source\ Code\ Pro\ for\ Powerline\ 10,Menlo\ Regular\ 11,Consolas\ Regular\ 12,Courier\ New\ Regular\ 14
+        set guifont=PragmataPro\ for\ Powerline\ Regular\ 10,Source\ Code\ Pro\ for\ Powerline\ 10,Menlo\ Regular\ 11,Consolas\ Regular\ 12,Courier\ New\ Regular\ 14
     endif
 
 
@@ -1860,6 +1861,9 @@ else
     " Console Vim
     " For me, this means iTerm2, possibly through tmux
     set t_Co=256
+    if(LINUX())
+      hi Normal ctermbg=none
+    endif
 
     " Mouse support
     set mouse=a
