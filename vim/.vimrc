@@ -12,10 +12,10 @@ set nocompatible
 call plug#begin('~/.vim/plugged')
 
     " My Bundles here:
-    Plug 'YankRing.vim'
+    Plug 'vim-scripts/YankRing.vim'
     " Utility
-    Plug 'repeat.vim'
-    Plug 'surround.vim'
+    Plug 'vim-scripts/repeat.vim'
+    Plug 'vim-scripts/surround.vim'
     " tmux related  {{{
       Plug 'christoomey/vim-tmux-navigator'
       Plug 'benmills/vimux'
@@ -89,10 +89,10 @@ call plug#begin('~/.vim/plugged')
     Plug 'vim-syntastic/syntastic'
 
     "Tagbar
-    Plug 'Tagbar'
+    Plug 'vim-scripts/Tagbar'
 
     "AfterColors
-    Plug 'AfterColors.vim'
+    Plug 'vim-scripts/AfterColors.vim'
 
     "Vimproc (Dependency for Unite.vim)
     Plug 'Shougo/vimproc.vim'
