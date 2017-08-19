@@ -88,3 +88,6 @@ bundle/ack.vim
 bundle/snipMate/
 
 .DS_Store
+
+build/
+.build/
