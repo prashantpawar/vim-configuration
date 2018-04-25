@@ -58,6 +58,11 @@ call plug#begin('~/.vim/plugged')
         Plug 'crusoexia/vim-monokai'
     " }}}
 
+    " Coq IDE {{{
+    Plug 'the-lambda-church/coquille'
+    Plug 'let-def/vimbufsync'
+    " }}}
+
     "CtrlP
     Plug 'ctrlpvim/ctrlp.vim'
     Plug 'FelikZ/ctrlp-py-matcher'
@@ -339,7 +344,7 @@ syntax on
 set background=dark
 " let g:badwolf_html_link_underline = 0
 " let g:solarized_contrast = "high"
-colors monokai
+"colors monokai
 
 " Highlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
@@ -727,6 +732,22 @@ augroup ft_c
     au FileType c setlocal foldmethod=syntax
 augroup END
 
+" }}}
+" Coq {{{
+" Maps Coquille commands to CoqIDE default key bindings
+au FileType coq call MyCoqMapping()
+
+function! MyCoqMapping()
+    map <buffer> <silent> nk    :CoqUndo<CR>
+    map <buffer> <silent> nh  :CoqToCursor<CR>
+    map <buffer> <silent> nj  :CoqNext<CR>
+    map <buffer> <silent> nl :CoqToCursor<CR>
+
+    imap <buffer> <silent> nk    <C-\><C-o>:CoqUndo<CR>
+    imap <buffer> <silent> nh  <C-\><C-o>:CoqToCursor<CR>
+    imap <buffer> <silent> nj  <C-\><C-o>:CoqNext<CR>
+    imap <buffer> <silent> nl <C-\><C-o>:CoqToCursor<CR>
+endfunction
 " }}}
 " Clojure {{{
 
@@ -1870,4 +1891,5 @@ else
 
 endif
 
+colors monokai
 " }}}
