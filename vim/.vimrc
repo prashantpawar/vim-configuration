@@ -46,6 +46,10 @@ call plug#begin('~/.vim/plugged')
 
     Plug 'elixir-lang/vim-elixir'
 
+    " Elm related {{{
+      Plug 'elmcast/elm-vim'
+    " }}}
+
     " Colorschemes {{{
         "Solarized
         Plug 'altercation/vim-colors-solarized'
@@ -58,9 +62,11 @@ call plug#begin('~/.vim/plugged')
         Plug 'crusoexia/vim-monokai'
     " }}}
 
-    " Coq IDE {{{
-    Plug 'the-lambda-church/coquille'
-    Plug 'let-def/vimbufsync'
+    " Ocaml {{{
+        Plug 'let-def/ocp-indent-vim'
+        " ReasonML {{{
+        Plug 'reasonml-editor/vim-reason'
+        " }}}
     " }}}
 
     "CtrlP
@@ -344,7 +350,7 @@ syntax on
 set background=dark
 " let g:badwolf_html_link_underline = 0
 " let g:solarized_contrast = "high"
-"colors monokai
+colors monokai
 
 " Highlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
@@ -733,22 +739,6 @@ augroup ft_c
 augroup END
 
 " }}}
-" Coq {{{
-" Maps Coquille commands to CoqIDE default key bindings
-au FileType coq call MyCoqMapping()
-
-function! MyCoqMapping()
-    map <buffer> <silent> nk    :CoqUndo<CR>
-    map <buffer> <silent> nh  :CoqToCursor<CR>
-    map <buffer> <silent> nj  :CoqNext<CR>
-    map <buffer> <silent> nl :CoqToCursor<CR>
-
-    imap <buffer> <silent> nk    <C-\><C-o>:CoqUndo<CR>
-    imap <buffer> <silent> nh  <C-\><C-o>:CoqToCursor<CR>
-    imap <buffer> <silent> nj  <C-\><C-o>:CoqNext<CR>
-    imap <buffer> <silent> nl <C-\><C-o>:CoqToCursor<CR>
-endfunction
-" }}}
 " Clojure {{{
 
 " function! SlimvToggleRepl()
@@ -901,6 +891,16 @@ augroup ft_django
 augroup END
 
 " }}}
+" Elm {{{
+let g:elm_format_autosave = 1
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+
+let g:elm_syntastic_show_warnings = 1
+let g:ycm_semantic_triggers = {
+     \ 'elm' : ['.'],
+     \}
+" }}}
 " Firefox {{{
 
 augroup ft_firefox
@@ -1050,6 +1050,10 @@ augroup ft_nginx
     au FileType nginx setlocal foldmethod=marker foldmarker={,}
 augroup END
 
+" }}}
+" Ocaml {{{
+"let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+"execute "set rtp+=" . g:opamshare . "/merlin/vim"
 " }}}
 " OrgMode {{{
 
@@ -1891,5 +1895,38 @@ else
 
 endif
 
-colors monokai
+" }}}
+" Opam Coercion {{{
+" ## added by OPAM user-setup for vim / base ## 93ee63e278bdfc07d1139a748ed3fff2 ## you can edit, but keep this line
+let s:opam_share_dir = system("opam config var share")
+let s:opam_share_dir = substitute(s:opam_share_dir, '[\r\n]*$', '', '')
+
+let s:opam_configuration = {}
+
+function! OpamConfOcpIndent()
+  execute "set rtp^=" . s:opam_share_dir . "/ocp-indent/vim"
+endfunction
+let s:opam_configuration['ocp-indent'] = function('OpamConfOcpIndent')
+
+function! OpamConfOcpIndex()
+  execute "set rtp+=" . s:opam_share_dir . "/ocp-index/vim"
+endfunction
+let s:opam_configuration['ocp-index'] = function('OpamConfOcpIndex')
+
+function! OpamConfMerlin()
+  let l:dir = s:opam_share_dir . "/merlin/vim"
+  execute "set rtp+=" . l:dir
+endfunction
+let s:opam_configuration['merlin'] = function('OpamConfMerlin')
+
+let s:opam_packages = ["ocp-indent", "ocp-index", "merlin"]
+let s:opam_check_cmdline = ["opam list --installed --short --safe --color=never"] + s:opam_packages
+let s:opam_available_tools = split(system(join(s:opam_check_cmdline)))
+for tool in s:opam_packages
+  " Respect package order (merlin should be after ocp-index)
+  if count(s:opam_available_tools, tool) > 0
+    call s:opam_configuration[tool]()
+  endif
+endfor
+" ## end of OPAM user-setup addition for vim / base ## keep this line
 " }}}
