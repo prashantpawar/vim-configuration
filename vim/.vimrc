@@ -11,9 +11,8 @@ set nocompatible
 
 call plug#begin('~/.vim/plugged')
 
-    " My Bundles here:
-    Plug 'vim-scripts/YankRing.vim'
     " Utility
+    Plug 'vim-scripts/YankRing.vim'
     Plug 'vim-scripts/repeat.vim'
     Plug 'vim-scripts/surround.vim'
     " tmux related  {{{
@@ -44,7 +43,14 @@ call plug#begin('~/.vim/plugged')
         Plug 'jason0x43/vim-js-indent'
     " }}}
 
-    Plug 'elixir-lang/vim-elixir'
+    "Coq related {{{
+      Plug 'let-def/vimbufsync'
+      Plug 'the-lambda-church/coquille'
+    "}}}
+
+    "Elixer related {{{
+      Plug 'elixir-lang/vim-elixir'
+    "}}}
 
     " Elm related {{{
       Plug 'elmcast/elm-vim'
@@ -69,14 +75,12 @@ call plug#begin('~/.vim/plugged')
         " }}}
     " }}}
 
-    "CtrlP
-    Plug 'ctrlpvim/ctrlp.vim'
-    Plug 'FelikZ/ctrlp-py-matcher'
-    Plug 'tacahiroy/ctrlp-funky'
-    Plug 'sgur/ctrlp-extensions.vim'
-
-    "Switch.vim
-    "Plug 'AndrewRadev/switch.vim'
+    "CtrlP {{{
+      Plug 'ctrlpvim/ctrlp.vim'
+      Plug 'FelikZ/ctrlp-py-matcher'
+      Plug 'tacahiroy/ctrlp-funky'
+      Plug 'sgur/ctrlp-extensions.vim'
+    "}}}
 
     " Ack
     Plug 'mileszs/ack.vim'
@@ -120,9 +124,6 @@ call plug#begin('~/.vim/plugged')
 
     "Powerline
     Plug 'powerline/powerline'
-
-    "Powerline local themes
-    "Plug 'zhaocai/linepower.vim'
 
     "Airline instead
     Plug 'vim-airline/vim-airline'
@@ -817,6 +818,10 @@ augroup ft_c
     au FileType confluencewiki setlocal wrap linebreak nolist
 augroup END
 
+" }}}
+" Coq {{{
+  " Maps Coquille commands to CoqIDE default key bindings
+  au FileType coq call coquille#CoqideMapping()
 " }}}
 " Cram {{{
 
