@@ -88,3 +88,17 @@ ZSH_TMUX_AUTOSTART=true
 source ~/.nvm/nvm.sh
 
 export PATH="$HOME/.yarn/bin:$PATH"
+export PATH=$PATH:~/.local/bin
+
+#Lem Lib Path
+export PATH=$PATH:~/development/lem
+export LEMLIB="$HOME/development/lem/library"
+
+# OPAM configuration
+. /home/renegade/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+
+# tabtab source for electron-forge package
+# uninstall by removing these lines or running `tabtab uninstall electron-forge`
+[[ -f /home/renegade/development/sources/ganache/node_modules/tabtab/.completions/electron-forge.zsh ]] && . /home/renegade/development/sources/ganache/node_modules/tabtab/.completions/electron-forge.zsh
+
+export PATH=$PATH:/usr/local/go/bin:~/gopath/bin
