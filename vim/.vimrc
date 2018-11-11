@@ -21,6 +21,13 @@ call plug#begin('~/.vim/plugged')
     " }}}
     Plug 'AndrewRadev/linediff.vim'
 
+    " {{{ Prettier
+    " post install (yarn install | npm install) then load plugin only for editing supported files
+    Plug 'prettier/vim-prettier', {
+      \ 'do': 'yarn install',
+      \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue'] }
+    " }}}
+
     "Javascript related {{{
         "Plug 'ternjs/tern_for_vim'
         Plug 'Valloric/YouCompleteMe'
@@ -34,6 +41,10 @@ call plug#begin('~/.vim/plugged')
         Plug 'pangloss/vim-javascript'
         Plug 'crusoexia/vim-javascript-lib'
 
+        "Autoformatter
+        Plug 'prettier/vim-prettier', {
+          \ 'do': 'yarn install',
+          \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue'] }
 
     " }}}
     "Typescript related {{{
@@ -528,6 +539,7 @@ vnoremap - =
 
 " Open new tab
 map <F6> :tabnew<CR>
+map <leader>t :tabnew<CR>
 
 "Remapping jk/kj to escape
 inoremap jk <Esc>
@@ -900,6 +912,7 @@ augroup END
 let g:elm_format_autosave = 1
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
+let g:syntastic_auto_jump = 0
 
 let g:elm_syntastic_show_warnings = 1
 let g:ycm_semantic_triggers = {
@@ -990,6 +1003,11 @@ augroup jsfolding
   autocmd!
   autocmd FileType javascript setlocal foldenable|setlocal foldmethod=syntax
 augroup END
+
+
+"" prettier config
+let g:prettier#autoformat = 0
+autocmd BufWritePre *.js,*.jsx,*.mjs,*.ts,*.tsx,*.css,*.less,*.scss,*.json,*.graphql,*.md,*.vue PrettierAsync
 " }}}
 " Lisp {{{
 
@@ -1564,7 +1582,11 @@ let vimclojure#WantNailgun = 0
 " }}}
 " Vimux {{{
 "map <Leader>l :VimuxRunCommand("!!")<CR><CR>
- map <Leader>l :call VimuxSendKeys("C-p Enter")<CR>
+function! SaveAndRun()
+  :w
+  :call VimuxSendKeys("C-p Enter")
+endfunction
+map <Leader>l :call SaveAndRun()<CR>
 " }}}
 " VimTmuxNavigator {{{
 let g:tmux_navigator_save_on_switch=2
