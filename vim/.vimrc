@@ -15,6 +15,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'vim-scripts/YankRing.vim'
     Plug 'vim-scripts/repeat.vim'
     Plug 'vim-scripts/surround.vim'
+    Plug 'simnalamburt/vim-mundo'
     " tmux related  {{{
       Plug 'christoomey/vim-tmux-navigator'
       Plug 'benmills/vimux'
@@ -61,6 +62,8 @@ call plug#begin('~/.vim/plugged')
 
     "Elixer related {{{
       Plug 'elixir-lang/vim-elixir'
+      Plug 'slashmili/alchemist.vim'
+      Plug 'mhinz/vim-mix-format'
     "}}}
 
     " Elm related {{{
@@ -77,61 +80,111 @@ call plug#begin('~/.vim/plugged')
 
         "Monokai
         Plug 'crusoexia/vim-monokai'
+
+        "Base-16
+        Plug 'chriskempson/base16-vim'
     " }}}
 
     " Ocaml {{{
-        Plug 'let-def/ocp-indent-vim'
+    "   Disabling it because it causes conflicts with merlin user-setup which is
+    "   added towards the end of the file
+        "Plug 'let-def/ocp-indent-vim'
+        " Ocaml/bucklescript autoformatting {{{
+        Plug 'sbdchd/neoformat'
+        augroup ocaml
+          autocmd!
+          au BufWritePre * try | undojoin | Neoformat | catch /^Vim\%((\a\+)\)\=:E790/ | finally | silent Neoformat | endtry
+        augroup END
+        Plug 'vim-scripts/vim-ocaml-conceal'
+        " }}}
+
         " ReasonML {{{
-        Plug 'reasonml-editor/vim-reason'
+          Plug 'reasonml-editor/vim-reason-plus'
+          augroup reason
+            syntax match reasonNiceOperator "[|" conceal cchar=⟦
+            syntax match reasonNiceOperator "|]" conceal cchar=⟧
+            hi link reasonNiceOperator Operator
+            hi! link Conceal Operator
+            setlocal conceallevel=2
+          augroup END
+          "Plug 'Shougo/deoplete.nvim'
+          "Plug 'roxma/nvim-yarp'
+          "Plug 'roxma/vim-hug-neovim-rpc'
+          " the path to python3 is obtained through executing `:echo exepath('python3')` in vim
+          "let g:python3_host_prog = "/usr/local/bin/python3"
         " }}}
     " }}}
 
-    "CtrlP {{{
+    " Idris {{{
+    Plug 'idris-hackers/idris-vim'
+    " }}}
+
+    " CtrlP {{{
       Plug 'ctrlpvim/ctrlp.vim'
       Plug 'FelikZ/ctrlp-py-matcher'
       Plug 'tacahiroy/ctrlp-funky'
       Plug 'sgur/ctrlp-extensions.vim'
-    "}}}
+    " }}}
 
-    " Ack
+    " Ack {{{
     Plug 'mileszs/ack.vim'
     noremap <LocalLeader># "ayiw:Ack <C-r>a<CR>
     vnoremap <LocalLeader># "ay:Ack <C-r>a<CR>
+    " }}}
 
-    "NERD Commentator
+    " Haxe {{{
+      Plug 'jdonaldson/vaxe'
+    " }}}
+
+    " NERD Commentator {{{
     Plug 'scrooloose/nerdcommenter'
+    " }}}
 
-    "vim global session
+    " vim global session {{{
     Plug 'http://github.com/c9s/gsession.vim'
+    " }}}
 
-    " "auto complete plugin
+    " "auto complete plugin {{{
     " Plug 'https://github.com/Shougo/neocomplcache.git'
     " " Disable AutoComplPop.
     " let g:acp_enableAtStartup = 0
     " let g:neocomplcache_enable_auto_select = 1
     " let g:neocomplcache_enable_at_startup = 1
+    " }}}
 
-    "Syntastic
+    " Purescript {{{
+    Plug 'raichoo/purescript-vim'
+    Plug 'frigoeu/psc-ide-vim'
+    " }}}
+
+    " Syntastic {{{
     Plug 'vim-syntastic/syntastic'
+    " }}}
 
-    "Tagbar
+    " Tagbar {{{
     Plug 'vim-scripts/Tagbar'
+    " }}}
 
-    "AfterColors
+    " AfterColors {{{
     Plug 'vim-scripts/AfterColors.vim'
+    " }}}
 
-    "Vimproc (Dependency for Unite.vim)
+    " Vimproc (Dependency for Unite.vim) {{{
     Plug 'Shougo/vimproc.vim'
+    " }}}
 
-    "Unite.vim
+    " Unite.vim {{{
     Plug 'Shougo/unite.vim'
+    " }}}
 
-    "Vitality.vim
+    " Vitality.vim {{{
     Plug 'sjl/vitality.vim'
+    " }}}
 
-    "Solidity syntax highlighting
+    " Solidity syntax highlighting {{{
     Plug 'tomlion/vim-solidity'
     au BufRead,BufNewFile *.sol setfiletype solidity
+    " }}}
 
     "Powerline
     Plug 'powerline/powerline'
@@ -235,8 +288,10 @@ augroup cline
     au!
     au WinLeave * set nocursorline
     au WinEnter * set cursorline
+    au WinEnter * set cursorcolumn
     au InsertEnter * set nocursorline
     au InsertLeave * set cursorline
+    au InsertLeave * set cursorcolumn
 augroup END
 
 " }}}
@@ -362,7 +417,10 @@ syntax on
 set background=dark
 " let g:badwolf_html_link_underline = 0
 " let g:solarized_contrast = "high"
-colors monokai
+"colors monokai
+
+let base16colorspace=256
+colorscheme base16-google-light
 
 " Highlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
@@ -407,14 +465,14 @@ inoremap <c-l> <c-k>l*
 " Convenience mappings ---------------------------------------------------- {{{
 
 " Fuck you, help key.
-noremap  <F1> :set invfullscreen<CR>
+noremap  <F i n1> :set invfullscreen<CR>
 inoremap <F1> <ESC>:set invfullscreen<CR>a
 
 " Stop it, hash key.
 inoremap # X<BS>#
 
 " Kill window
- nnoremap K :q<cr>
+ nnoremap <leader>x :q<cr>
 
 " Toggle line numbers
 nnoremap <leader>n :setlocal number!<cr>
@@ -908,6 +966,9 @@ augroup ft_django
 augroup END
 
 " }}}
+" Elixir {{{
+ let g:mix_format_on_save = 1
+" }}}
 " Elm {{{
 let g:elm_format_autosave = 1
 let g:syntastic_always_populate_loc_list = 1
@@ -946,6 +1007,9 @@ augroup ft_haskell
 augroup END
 
 " }}}
+" Idris {{{
+let g:idris_conceal = 1
+" }}}
 " HTML and HTML JS {{{
 
 "let g:html_indent_tags = ['p', 'li']
@@ -959,7 +1023,7 @@ augroup ft_html
     autocmd FileType javascript JsPreTmpl html
     autocmd FileType typescript JsPreTmpl markdown
     autocmd FileType typescript syn clear foldBraces " For leafgarland/typescript-vim users only. Please see #1 for details.
-        
+
 augroup END
 
 " }}}
@@ -1075,9 +1139,41 @@ augroup END
 
 " }}}
 " Ocaml {{{
-"let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
-"execute "set rtp+=" . g:opamshare . "/merlin/vim"
-" }}}
+let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+execute "set rtp+=" . g:opamshare . "/merlin/vim"
+" ## added by OPAM user-setup for vim / base ## 93ee63e278bdfc07d1139a748ed3fff2 ## you can edit, but keep this line
+let s:opam_share_dir = system("opam config var share")
+let s:opam_share_dir = substitute(s:opam_share_dir, '[\r\n]*$', '', '')
+
+let s:opam_configuration = {}
+
+function! OpamConfOcpIndent()
+  execute "set rtp^=" . s:opam_share_dir . "/ocp-indent/vim"
+endfunction
+let s:opam_configuration['ocp-indent'] = function('OpamConfOcpIndent')
+
+function! OpamConfOcpIndex()
+  execute "set rtp+=" . s:opam_share_dir . "/ocp-index/vim"
+endfunction
+let s:opam_configuration['ocp-index'] = function('OpamConfOcpIndex')
+
+function! OpamConfMerlin()
+  let l:dir = s:opam_share_dir . "/merlin/vim"
+  execute "set rtp+=" . l:dir
+endfunction
+let s:opam_configuration['merlin'] = function('OpamConfMerlin')
+
+let s:opam_packages = ["ocp-indent", "ocp-index", "merlin"]
+let s:opam_check_cmdline = ["opam list --installed --short --safe --color=never"] + s:opam_packages
+let s:opam_available_tools = split(system(join(s:opam_check_cmdline)))
+for tool in s:opam_packages
+  " Respect package order (merlin should be after ocp-index)
+  if count(s:opam_available_tools, tool) > 0
+    call s:opam_configuration[tool]()
+  endif
+endfor
+" ## end of OPAM user-setup addition for vim / base ## keep this line
+"}}}
 " OrgMode {{{
 
 augroup ft_org
@@ -1312,14 +1408,14 @@ let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 let g:ctrlp_funky_matchtype = 'path'
 let g:ctrlp_funky_syntax_highlight = 1
+" If a file is already open, open it again in a new pane instead of switching to
+" the existing pane
+let g:ctrlp_switch_buffer = 'et'
 
 " }}}
-" Gundo {{{
+" Mundo {{{
 
-let g:gundo_debug = 1
-let g:gundo_preview_bottom = 1
-let g:gundo_tree_statusline = "Gundo"
-let g:gundo_preview_statusline = "Gundo Preview"
+nnoremap <leader>u :MundoToggle<CR>
 
 " }}}
 " Haskellmode {{{
@@ -1338,7 +1434,7 @@ let g:ghc = "/usr/local/bin/ghc"
 
 " }}}
 " Javascript {{{
-    
+
     set cole=1
     "pangloss/vim-javascript settings
     let g:javascript_conceal_function       = "𝑓"
@@ -1467,6 +1563,7 @@ let g:syntastic_enable_signs = 1
 "let g:syntastic_stl_format = '[%E{%e Errors}%B{, }%W{%w Warnings}]'
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exec = 'eslint_d'
+let g:syntastic_ocaml_checkers = []
 
 " }}}
 " tslime {{{
@@ -1921,39 +2018,4 @@ else
     set mouse=a
 
 endif
-
-" }}}
-" Opam Coercion {{{
-" ## added by OPAM user-setup for vim / base ## 93ee63e278bdfc07d1139a748ed3fff2 ## you can edit, but keep this line
-let s:opam_share_dir = system("opam config var share")
-let s:opam_share_dir = substitute(s:opam_share_dir, '[\r\n]*$', '', '')
-
-let s:opam_configuration = {}
-
-function! OpamConfOcpIndent()
-  execute "set rtp^=" . s:opam_share_dir . "/ocp-indent/vim"
-endfunction
-let s:opam_configuration['ocp-indent'] = function('OpamConfOcpIndent')
-
-function! OpamConfOcpIndex()
-  execute "set rtp+=" . s:opam_share_dir . "/ocp-index/vim"
-endfunction
-let s:opam_configuration['ocp-index'] = function('OpamConfOcpIndex')
-
-function! OpamConfMerlin()
-  let l:dir = s:opam_share_dir . "/merlin/vim"
-  execute "set rtp+=" . l:dir
-endfunction
-let s:opam_configuration['merlin'] = function('OpamConfMerlin')
-
-let s:opam_packages = ["ocp-indent", "ocp-index", "merlin"]
-let s:opam_check_cmdline = ["opam list --installed --short --safe --color=never"] + s:opam_packages
-let s:opam_available_tools = split(system(join(s:opam_check_cmdline)))
-for tool in s:opam_packages
-  " Respect package order (merlin should be after ocp-index)
-  if count(s:opam_available_tools, tool) > 0
-    call s:opam_configuration[tool]()
-  endif
-endfor
-" ## end of OPAM user-setup addition for vim / base ## keep this line
 " }}}
