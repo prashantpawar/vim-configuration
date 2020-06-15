@@ -55,6 +55,10 @@ call plug#begin('~/.vim/plugged')
         Plug 'jason0x43/vim-js-indent'
     " }}}
 
+    " Vue {{{
+    Plug 'posva/vim-vue'
+    " }}}
+
     "Coq related {{{
       Plug 'let-def/vimbufsync'
       Plug 'the-lambda-church/coquille'
@@ -100,13 +104,6 @@ call plug#begin('~/.vim/plugged')
 
         " ReasonML {{{
           Plug 'reasonml-editor/vim-reason-plus'
-          augroup reason
-            syntax match reasonNiceOperator "[|" conceal cchar=⟦
-            syntax match reasonNiceOperator "|]" conceal cchar=⟧
-            hi link reasonNiceOperator Operator
-            hi! link Conceal Operator
-            setlocal conceallevel=2
-          augroup END
           "Plug 'Shougo/deoplete.nvim'
           "Plug 'roxma/nvim-yarp'
           "Plug 'roxma/vim-hug-neovim-rpc'
@@ -184,6 +181,14 @@ call plug#begin('~/.vim/plugged')
     " Solidity syntax highlighting {{{
     Plug 'tomlion/vim-solidity'
     au BufRead,BufNewFile *.sol setfiletype solidity
+    " }}}
+
+    " Svelte Framework {{{
+    Plug 'burner/vim-svelte'
+    " }}}
+
+    " Vyper - Ethereum {{{
+    Plug 'jacqueswww/vim-vyper'
     " }}}
 
     "Powerline

@@ -16,6 +16,7 @@
 #define MUSIC_MASK (keycode != KC_NO)
 
 #define BACKLIGHT_BREATHING
+#define ONESHOT_TIMEOUT 10  /* Time (in ms) before the one shot key is released */
 
 /*
  * MIDI options
