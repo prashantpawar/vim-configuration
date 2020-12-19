@@ -1,0 +1,16 @@
+// Place your key bindings in this file to override the defaults
+[
+  { 
+    "key": "ctrl+;",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+      "text": "\u001bL\u001bP\u000D"
+    }
+  },
+  {
+    "key": "ctrl+'",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+      "text": "\u001bC\u000D"
+    }
+]
